@@ -51,6 +51,10 @@ func main() {
 	defer db.Close()
 	db.LogMode(true)
 
+	// --- create table  --
+	prepareTable(db)
+
+
 	router := chi.NewRouter()
 	cors := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
@@ -105,7 +109,23 @@ func getDbSource() string {
 
 // TODO
 // create table
+func prepareTable(db *gorm.DB) {
+	var sql1 = `CREATE TABLE IF NOT EXISTS todo (
+		id varchar(64) NOT NULL,
+		text varchar(256) NOT NULL,
+		done bool NOT NULL,
+		user_id varchar(64) NOT NULL,
+		PRIMARY KEY (id)
+	);`
+	var sql2 = `CREATE TABLE IF NOT EXISTS users (
+		id varchar(64) NOT NULL,
+		name varchar(256) NOT NULL,
+		PRIMARY KEY (id)
+	);`
 
+	db.Exec(sql1)
+	db.Exec(sql2)
+}
 
 /*--- GraphQL example for playground ---
 
