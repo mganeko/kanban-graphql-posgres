@@ -93,13 +93,18 @@ func getDbSource() string {
 		return dataSource
 	}
 
+	DB_SSLMODE :=  os.Getenv("DB_SSLMODE")
+	if (DB_SSLMODE == "") {
+		DB_SSLMODE = "require"
+	}
+
 	// MySQL
 	//  var source string  =  DB_USER + ":" + DB_PASSWORD + "@tcp(" + DB_HOST + ":" + DB_PORT + ")/" + DB_NAME + "?charset=utf8&parseTime=True&loc=Local"
 
 	// PostgreSQL
 	// user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/shanghai
 	// OK: var source string  = "user=" + DB_USER + " password=" + DB_PASSWORD + " dbname=" + DB_NAME + " port=" + DB_PORT + " sslmode=disable TimeZone=Asia/Tokyo"
-	var source string  = "host=" + DB_HOST + " user=" + DB_USER + " password=" + DB_PASSWORD + " dbname=" + DB_NAME + " port=" + DB_PORT + " sslmode=require TimeZone=Asia/Tokyo"
+	var source string  = "host=" + DB_HOST + " user=" + DB_USER + " password=" + DB_PASSWORD + " dbname=" + DB_NAME + " port=" + DB_PORT + " sslmode=" + DB_SSLMODE + " TimeZone=Asia/Tokyo"
 	// NG: var source string = "pgsql:host=" + DB_HOST + ";port=" + DB_PORT + ";dbname=" + DB_NAME + ";user=" + DB_USER + ";password=" + DB_PASSWORD
 
 	log.Printf("db soruce*", source)
